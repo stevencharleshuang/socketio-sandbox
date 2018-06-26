@@ -9,8 +9,8 @@ app.get('/', function (req, res) {
 });
 
 io.on('connection', function (socket) {
-  socket.emit('news', { status: 'Online' });
-  socket.on('my other event', function (data) {
+  socket.emit('status', { status: 'Online' });
+  socket.on('clientMessage', function (data) {
     console.log('>>> server: ', data);
   });
 });

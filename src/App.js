@@ -6,26 +6,26 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      news: 'Offline',
+      status: 'Offline',
       input: '',
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSend = this.handleSend.bind(this);
   }
   componentDidMount() {
-    socket.on('news', (data) => {
-      this.newsUpdate(data);
+    socket.on('status', (data) => {
+      this.statusUpdate(data);
       // socket.emit('my other event', { my: 'data' });
     })
   }
 
-  // componentWillUnmount() {
+  componentWillUnmount() {
+    socket.disconnect()
+  }
 
-  // }
-
-  newsUpdate = data => {
-    this.setState({ news: data.status })
-    console.log('<<< client: newsUpdate data ', data)
+  statusUpdate = data => {
+    this.setState({ status: data.status })
+    console.log('<<< client: statusUpdate data ', data)
   }
 
   handleChange(e) {
@@ -36,16 +36,17 @@ class App extends Component {
   }
 
   handleSend(e) {
-    console.log('handleSend: ', this.state.input)
+    console.log('handleSend: ', this.state.input);
+    socket.emit('clientMessage', this.state.input);
   }
 
   render() {
     console.log('this.state.input: ', this.state.input)
-    console.log("<<< client: render() this.state.news ", this.state.news)
+    console.log("<<< client: render() this.state.status ", this.state.status)
     return (
       <div className="App">
         <h1>WELCOME TO THE SOCKET DOME</h1>
-        <h2>Socket Server Status: {this.state.news}</h2>
+        <h2>Socket Server Status: {this.state.status}</h2>
         <form>
           <label>Server Comm:</label><br />
           <input onChange={this.handleChange} name="message" type="text" placeholder="Message" autoFocus autoComplete="off" />
