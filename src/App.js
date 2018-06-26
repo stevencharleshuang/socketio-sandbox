@@ -6,13 +6,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      news: 'Default',
+      news: 'Offline',
     }
   }
   componentDidMount() {
     socket.on('news', (data) => {
-      console.log('<<< client: ', data.message);
-      // news = data.message
       this.newsUpdate(data);
       // socket.emit('my other event', { my: 'data' });
     })
@@ -23,7 +21,7 @@ class App extends Component {
   // }
 
   newsUpdate = data => {
-    this.setState({ news: data.message })
+    this.setState({ news: data.status })
     console.log('<<< client: newsUpdate data ', data)
   }
 
@@ -32,7 +30,8 @@ class App extends Component {
     console.log("<<< client: render() this.state.news ", this.state.news)
     return (
       <div className="App">
-        <h1>{this.state.news}</h1>
+        <h1>WELCOME TO THE SOCKET DOME</h1>
+        <h2>Socket Server Status: {this.state.news}</h2>
       </div>
     );
   }

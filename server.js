@@ -9,7 +9,7 @@ app.get('/', function (req, res) {
 });
 
 io.on('connection', function (socket) {
-  socket.emit('news', { message: 'hello world' });
+  socket.emit('news', { status: 'Online' });
   socket.on('my other event', function (data) {
     console.log('>>> server: ', data);
   });
