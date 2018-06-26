@@ -10,8 +10,13 @@ app.get('/', function (req, res) {
 
 io.on('connection', function (socket) {
   socket.emit('status', { status: 'Online' });
-  socket.on('clientMessage', function (data) {
-    console.log('>>> server: ', data);
+  socket.on('clientMessage', (data) => {
+    console.log('>>> Server: ', data);
+    io.emit('incomingMessage', data)
   });
+
+  socket.on('disconnect', () => {
+    console.log('>>> Server: User Disconnected')
+  })
 });
 
